@@ -4,7 +4,7 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-  <definition name="index" template="/tiles/index.jsp">
-  </definition>
+  <definition name="dummy" template="/tiles/dummy.jsp"></definition>
+  <definition name="index" template="/tiles/index.jsp"></definition>
   
 </tiles-definitions>

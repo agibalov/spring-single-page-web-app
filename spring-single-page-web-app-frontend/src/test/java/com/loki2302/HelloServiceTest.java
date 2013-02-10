@@ -18,6 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.loki2302.dummy.AddNumbersRequestDTO;
+import com.loki2302.dummy.AddNumbersResponseDTO;
+import com.loki2302.dummy.HelloDTO;
+import com.loki2302.dummy.HelloService;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"classpath:applicationContext.xml"})

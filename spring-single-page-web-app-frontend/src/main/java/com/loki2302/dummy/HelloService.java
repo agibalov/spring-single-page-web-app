@@ -1,4 +1,4 @@
-package com.loki2302;
+package com.loki2302.dummy;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
