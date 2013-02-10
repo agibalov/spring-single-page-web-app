@@ -3,7 +3,7 @@
 		<form class="form-horizontal">
 			<fieldset>
 				<legend>Sign Up</legend>
-				<div class="control-group">
+				<div class="control-group" ng-class="getUserNameClass()">
 					<label class="control-label" for="userName">User Name:</label>
 					<div class="controls">
 						<input 
@@ -11,9 +11,12 @@
 							id="userName" 
 							placeholder="User Name" 
 							ng-model="userName">
+						<span
+							class="help-block"
+							ng-repeat="error in userNameErrors">{{error}}</span>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="control-group" ng-class="getPasswordClass()">
 					<label class="control-label" for="password">Password:</label>
 					<div class="controls">
 						<input 
@@ -21,6 +24,9 @@
 							id="password" 
 							placeholder="Password"
 							ng-model="password">
+						<span
+							class="help-block"
+							ng-repeat="error in passwordErrors">{{error}}</span>
 					</div>
 				</div>
 				<div class="form-actions">
