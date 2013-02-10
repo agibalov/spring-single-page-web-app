@@ -15,7 +15,7 @@ import com.loki2302.dto.BlogServiceErrorCode;
 import com.loki2302.dto.PostDTO;
 import com.loki2302.dto.ServiceResult;
 import com.loki2302.dto.UserDTO;
-import com.loki2302.service.BlogService;
+import com.loki2302.service.BlogServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -24,7 +24,7 @@ import com.loki2302.service.BlogService;
 public class BlogServiceTest {
 
 	@Autowired
-	BlogService blogService;
+	BlogServiceImpl blogService;
 	
 	@Test
 	public void sessionExpiresAfter3Seconds() throws InterruptedException {

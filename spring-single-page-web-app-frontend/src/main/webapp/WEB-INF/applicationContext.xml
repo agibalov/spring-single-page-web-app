@@ -50,7 +50,7 @@
 	<jaxrs:server id="apiContainer" address="/">
 	    <jaxrs:serviceBeans>
             <ref bean="helloService"/>
-            <ref bean="blogServiceFacade"/>
+            <ref bean="blogService"/>
         </jaxrs:serviceBeans>	    
         <jaxrs:providers>
             <ref bean="jacksonProvider" />
