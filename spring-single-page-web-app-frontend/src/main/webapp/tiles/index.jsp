@@ -7,6 +7,7 @@
         
         <script type="text/javascript" src="/static/js/app.js"></script>
         <script type="text/javascript" src="/static/js/api.js"></script>
+        <script type="text/javascript" src="/static/js/controllers/chrome-controller.js"></script>
         <script type="text/javascript" src="/static/js/controllers/sign-up-controller.js"></script>
         <script type="text/javascript" src="/static/js/controllers/sign-in-controller.js"></script>
         <script type="text/javascript" src="/static/js/controllers/index-controller.js"></script>
@@ -20,11 +21,11 @@
         	angular.module("app").constant("apiServiceRoot", "/api/BlogService/");
         </script>
 	</head>
-	<body>
+	<body ng-controller="ChromeController">
 		<div class="container">
 			<div class="row">
 				<div class="page-header">
-					<h1>Single Page Blogger</h1>
+					<h1>Single Page Blogger ({{user.userName}})</h1>
 				</div>
 			</div>		
 			<ng-view></ng-view>
