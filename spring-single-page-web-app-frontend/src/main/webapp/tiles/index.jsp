@@ -10,6 +10,9 @@
         <script type="text/javascript" src="/static/js/controllers/sign-up-controller.js"></script>
         <script type="text/javascript" src="/static/js/controllers/sign-in-controller.js"></script>
         <script type="text/javascript" src="/static/js/controllers/index-controller.js"></script>
+        <script type="text/javascript" src="/static/js/controllers/create-post-controller.js"></script>
+        <script type="text/javascript" src="/static/js/controllers/get-post-controller.js"></script>
+        <script type="text/javascript" src="/static/js/controllers/edit-post-controller.js"></script>
         <script type="text/javascript" src="/static/js/widgets/user-name-input-widget.js"></script>
         <script type="text/javascript" src="/static/js/widgets/password-input-widget.js"></script>
 	</head>
@@ -17,7 +20,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="page-header">
-					<h1>Hi there</h1>
+					<h1>Single Page Blogger</h1>
 				</div>
 			</div>		
 			<ng-view></ng-view>
