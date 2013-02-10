@@ -8,6 +8,7 @@
         <script type="text/javascript" src="/static/js/app.js"></script>
         <script type="text/javascript" src="/static/js/api.js"></script>
         <script type="text/javascript" src="/static/js/controllers/sign-up-controller.js"></script>
+        <script type="text/javascript" src="/static/js/controllers/sign-in-controller.js"></script>
         <script type="text/javascript" src="/static/js/controllers/index-controller.js"></script>
         <script type="text/javascript" src="/static/js/widgets/user-name-input-widget.js"></script>
         <script type="text/javascript" src="/static/js/widgets/password-input-widget.js"></script>

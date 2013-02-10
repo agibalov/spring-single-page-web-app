@@ -18,4 +18,23 @@
 			</fieldset>
 		</form>
 	</div>
+	<div class="span6" ng-controller="SignInController">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Sign In</legend>
+				<user-name-input-widget 
+					value="userName" 
+					errors="userNameErrors"></user-name-input-widget>
+				<password-input-widget 
+					value="password"
+					errors="passwordErrors"></password-input-widget>
+				<div class="form-actions">
+  					<button 
+  						type="button" 
+  						class="btn btn-primary"
+  						ng-click="signInClicked()">Sign In</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </div>

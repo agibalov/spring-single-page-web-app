@@ -63,7 +63,7 @@
       class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
       
     <bean id="authenticationManager" class="com.loki2302.service.implementation.AuthenticationManager">    	
-    	<property name="sessionPeriod" value="3" />
+    	<property name="sessionPeriod" value="3600" />
     </bean>
 
 	<bean id="entityManagerFactory"
