@@ -1,7 +1,7 @@
 angular.module("app", [], function($routeProvider) {
 	$routeProvider
 		.when("/", {
-			templateUrl: "/static/templates/index.html",
+			templateUrl: "/static/templates/controllers/index.html",
 			controller: "IndexController"
 		})
 		.otherwise({

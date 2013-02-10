@@ -1,0 +1,13 @@
+<div class="control-group" ng-class="getClass()">
+	<label class="control-label" for="userName">User Name:</label>
+	<div class="controls">
+		<input
+			type="text" 
+			id="userName" 
+			placeholder="User Name" 
+			ng-model="value">
+		<span
+			class="help-block"
+			ng-repeat="error in errors">{{error}}</span>
+	</div>
+</div>
