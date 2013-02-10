@@ -1,6 +1,4 @@
-angular.module("app").factory("api", function($http) {	
-	var apiServiceRoot = "/api/BlogService/";
-	
+angular.module("app").factory("api", function($http, apiServiceRoot) {
 	return {
 		createUser: function(userName, password, onSuccess) {
 			$http

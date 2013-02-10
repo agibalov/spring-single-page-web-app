@@ -15,6 +15,10 @@
         <script type="text/javascript" src="/static/js/controllers/edit-post-controller.js"></script>
         <script type="text/javascript" src="/static/js/widgets/user-name-input-widget.js"></script>
         <script type="text/javascript" src="/static/js/widgets/password-input-widget.js"></script>
+        
+        <script type="text/javascript">
+        	angular.module("app").constant("apiServiceRoot", "/api/BlogService/");
+        </script>
 	</head>
 	<body>
 		<div class="container">
