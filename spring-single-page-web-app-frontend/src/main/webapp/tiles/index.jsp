@@ -25,7 +25,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="page-header">
-					<h1>Single Page Blogger ({{user.userName}})</h1>
+					<h1>Single Page Blogger ({{getSessionToken()}})</h1>
 				</div>
 			</div>		
 			<ng-view></ng-view>

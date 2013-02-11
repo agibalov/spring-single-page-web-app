@@ -1,5 +1,5 @@
-angular.module("app").controller("ChromeController", function($scope) {
-	$scope.user = {
-		userName: "testuser"
+angular.module("app").controller("ChromeController", function($scope, api) {
+	$scope.getSessionToken = function() {
+		return api.getSessionToken();
 	};
 });

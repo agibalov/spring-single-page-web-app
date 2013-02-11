@@ -1,5 +1,18 @@
 angular.module("app").factory("api", function($http, apiServiceRoot) {
+	
+	var state = {
+		sessionToken: null
+	};	
+	
 	return {
+		isAuthenticated: function() {
+			return state.sessionToken !== null;
+		},
+		
+		getSessionToken: function() {
+			return state.sessionToken;
+		},
+		
 		createUser: function(userName, password, onSuccess) {
 			$http
 			.post(
@@ -28,18 +41,26 @@ angular.module("app").factory("api", function($http, apiServiceRoot) {
 					} 
 				})
 			.success(function(result) {
+				if(result.ok === true) {
+					state.sessionToken = result.payload.SessionToken;
+				}
+				
 				onSuccess(result);
 			});
 		},
 		
-		createPost: function(sessionToken, text, onSuccess) {
+		createPost: function(text, onSuccess) {
+			if(!this.isAuthenticated()) {
+				throw "not authenticated";
+			}
+			
 			$http
 			.post(
 				apiServiceRoot + "createPost",
 				null,
 				{
 					params: {
-						sessionToken: sessionToken,
+						sessionToken: this.getSessionToken(),
 						text: text
 					}
 				})
@@ -49,12 +70,16 @@ angular.module("app").factory("api", function($http, apiServiceRoot) {
 		},
 		
 		getPost: function(sessionToken, postId, onSuccess) {
+			if(!this.isAuthenticated()) {
+				throw "not authenticated";
+			}
+			
 			$http
 			.get(
 				apiServiceRoot + "getPost",
 				{
 					params: {
-						sessionToken: sessionToken,
+						sessionToken: this.getSessionToken(),
 						postId: postId
 					}
 				})
@@ -63,13 +88,17 @@ angular.module("app").factory("api", function($http, apiServiceRoot) {
 			});
 		},
 		
-		updatePost: function(sessionToken, postId, text, onSuccess) {
+		updatePost: function(postId, text, onSuccess) {
+			if(!this.isAuthenticated()) {
+				throw "not authenticated";
+			}
+			
 			$http
 			.post(
 				apiServiceRoot + "updatePost",
 				{
 					params: {
-						sessionToken: sessionToken,
+						sessionToken: this.getSessionToken(),
 						postId: postId,
 						text: text
 					}
@@ -79,13 +108,17 @@ angular.module("app").factory("api", function($http, apiServiceRoot) {
 			});
 		},
 		
-		deletePost: function(sessionToken, postId) {
+		deletePost: function(postId) {
+			if(!this.isAuthenticated()) {
+				throw "not authenticated";
+			}
+			
 			$http
 			.post(
 				apiServiceRoot + "deletePost",
 				{
 					params: {
-						sessionToken: sessionToken,
+						sessionToken: this.getSessionToken(),
 						postId: postId
 					}
 				})

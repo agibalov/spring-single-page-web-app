@@ -1,5 +1,14 @@
 <div class="row">
 	<div class="span12">
 		<h1>Create Post</h1>
+		<form>
+			<textarea ng-model="text" class="input-block-level" rows="8"></textarea>
+			<div class="form-actions">
+  				<button 
+  					type="button" 
+  					class="btn btn-primary"
+  					ng-click="createPostClicked()">Create Post</button>
+			</div>
+		</form>
 	</div>
 </div>
