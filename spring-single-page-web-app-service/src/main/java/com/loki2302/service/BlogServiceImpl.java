@@ -9,7 +9,6 @@ import com.loki2302.dto.PostDTO;
 import com.loki2302.dto.ServiceResult;
 import com.loki2302.dto.UserDTO;
 import com.loki2302.service.implementation.BlogServiceException;
-import com.loki2302.service.implementation.BlogServiceValidationException;
 import com.loki2302.service.implementation.UserDetailsRetriever;
 import com.loki2302.service.transactionscripts.AuthenticateTransactionScript;
 import com.loki2302.service.transactionscripts.CreatePostTransactionScript;
@@ -120,12 +119,10 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			T result = function.execute();			
 			return ServiceResult.ok(result);
-		} catch(BlogServiceValidationException e) {
-			return ServiceResult.error(
-					e.getBlogServiceErrorCode(),
-					e.getFieldErrors()); 
 		} catch(BlogServiceException e) {
-			return ServiceResult.error(e.getBlogServiceErrorCode());
+			return ServiceResult.error(
+					e.getBlogServiceErrorCode(), 
+					e.getFieldErrors());
 		} catch(RuntimeException e) {
 			return ServiceResult.error(BlogServiceErrorCode.InternalError);
 		}

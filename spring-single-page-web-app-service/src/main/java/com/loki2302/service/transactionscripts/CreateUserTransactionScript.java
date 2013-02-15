@@ -31,13 +31,16 @@ public class CreateUserTransactionScript {
 		
 		User user = userRepository.findUserByName(userName);
 		if(user != null) {
-			throw new BlogServiceException(BlogServiceErrorCode.UserAlreadyRegistered);
+			throw new BlogServiceException(
+					BlogServiceErrorCode.UserAlreadyRegistered,
+					UserNameAndPasswordSubject.USER_NAME_FIELD,
+					"User name already registered");
 		}
 		
 		user = new User();
 		user.setUserName(userName);
 		user.setPassword(password);
-		user = userRepository.save(user);
+		user = userRepository.save(user);	
 		
 		UserAndPostCount result = userDetailsRetriever.getUserDetails(user.getId());		
 		UserDTO userDto = new UserDTO();

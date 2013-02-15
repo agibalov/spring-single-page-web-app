@@ -75,6 +75,8 @@ public class AuthenticationTest {
 		assertEquals(
 				BlogServiceErrorCode.UserAlreadyRegistered, 
 				createUserResult2.blogServiceErrorCode);
+		assertTrue(createUserResult2.fieldErrors.size() > 0);
+		assertTrue(createUserResult2.fieldErrors.containsKey("userName"));
 	}
 	
 	@Test

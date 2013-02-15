@@ -12,19 +12,20 @@ import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.loki2302.service.implementation.BlogServiceValidationException;
+import com.loki2302.dto.BlogServiceErrorCode;
+import com.loki2302.service.implementation.BlogServiceException;
 
 @Service
 public class ThrowingValidator {
 	@Autowired Validator validator;
 	
-	public void Validate(Object o) throws BlogServiceValidationException {
+	public void Validate(Object o) throws BlogServiceException {
 		Set<ConstraintViolation<Object>> violations = 
 				validator.validate(o);
 		if(violations.size() == 0) {
 			return;
 		}
-		
+	
 		Map<String, List<String>> fields = new HashMap<String, List<String>>();
 		for(ConstraintViolation<Object> violation : violations) {
 			String fieldName = violation.getPropertyPath().toString();
@@ -38,6 +39,6 @@ public class ThrowingValidator {
 			fieldErrors.add(message);
 		}
 			
-		throw new BlogServiceValidationException(fields);			
+		throw new BlogServiceException(BlogServiceErrorCode.ValidationError, fields);			
 	}
 }
