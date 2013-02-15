@@ -2,6 +2,8 @@ package com.loki2302;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +134,53 @@ public class BlogServiceTest {
 	@Test
 	public void cantUpdatePostIfTextIsTooLong() {
 		// TODO
+	}
+	
+	@Test
+	public void canGetPost() {
+		UserDTO user = createUser("loki2302", "qwerty");
+		AuthenticationResultDTO authenticationResult = authenticate(
+				"loki2302", "qwerty");
+		
+		String sessionToken = authenticationResult.SessionToken;
+		
+		PostDTO post = createPost(sessionToken, "text goes here");
+		ServiceResult<PostDTO> getPostServiceResult = blogService.getPost(
+				sessionToken, 
+				post.PostId);
+		assertTrue(getPostServiceResult.ok);
+		assertEquals(post.PostId, getPostServiceResult.payload.PostId);
+		assertEquals(post.Text, getPostServiceResult.payload.Text);
+		assertEquals(post.UserId, getPostServiceResult.payload.UserId);
+		assertEquals(post.UserName, getPostServiceResult.payload.UserName);
+	}
+	
+	@Test
+	public void canGetPosts() {
+		createUser("loki2302", "qwerty");
+		createUser("qwerty", "qwerty");
+		
+		String sessionToken1 = authenticate("loki2302", "qwerty").SessionToken;
+		String sessionToken2 = authenticate("qwerty", "qwerty").SessionToken;
+		
+		ServiceResult<List<PostDTO>> getPostsServiceResult = blogService.getPosts(sessionToken1);
+		assertTrue(getPostsServiceResult.ok);
+		assertEquals(0, getPostsServiceResult.payload.size());
+		
+		createPost(sessionToken1, "hi there");
+		getPostsServiceResult = blogService.getPosts(sessionToken1);
+		assertTrue(getPostsServiceResult.ok);
+		assertEquals(1, getPostsServiceResult.payload.size());
+		
+		createPost(sessionToken2, "aaa");
+		
+		getPostsServiceResult = blogService.getPosts(sessionToken1);
+		assertTrue(getPostsServiceResult.ok);
+		assertEquals(2, getPostsServiceResult.payload.size());
+		
+		getPostsServiceResult = blogService.getPosts(sessionToken2);
+		assertTrue(getPostsServiceResult.ok);
+		assertEquals(2, getPostsServiceResult.payload.size());
 	}
 	
 	@Test

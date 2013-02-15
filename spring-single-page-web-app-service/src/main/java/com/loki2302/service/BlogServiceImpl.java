@@ -1,5 +1,7 @@
 package com.loki2302.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.loki2302.service.transactionscripts.CreatePostTransactionScript;
 import com.loki2302.service.transactionscripts.CreateUserTransactionScript;
 import com.loki2302.service.transactionscripts.DeletePostTransactionScript;
 import com.loki2302.service.transactionscripts.GetPostTransactionScript;
+import com.loki2302.service.transactionscripts.GetPostsTransactionScript;
 import com.loki2302.service.transactionscripts.UpdatePostTransactionScript;
 
 @Service("blogService")
@@ -24,6 +27,7 @@ public class BlogServiceImpl implements BlogService {
 	@Autowired UserDetailsRetriever userDetailsRetriever;
 	@Autowired CreatePostTransactionScript createPostTransactionScript;	
 	@Autowired GetPostTransactionScript getPostTransactionScript;	
+	@Autowired GetPostsTransactionScript getPostsTransactionScript;
 	@Autowired DeletePostTransactionScript deletePostTransactionScript;	
 	@Autowired UpdatePostTransactionScript updatePostTransactionScript;
 	
@@ -81,6 +85,17 @@ public class BlogServiceImpl implements BlogService {
 						postId);
 			}			
 		});		
+	}
+	
+	public ServiceResult<List<PostDTO>> getPosts(
+			final String sessionToken) {
+		
+		return ExecuteWithExceptionHandling(new ServiceAction<List<PostDTO>> () {
+			@Override
+			public List<PostDTO> execute() throws BlogServiceException {
+				return getPostsTransactionScript.getPosts(sessionToken);
+			}
+		}); 
 	}
 	
 	public ServiceResult<Object> deletePost(

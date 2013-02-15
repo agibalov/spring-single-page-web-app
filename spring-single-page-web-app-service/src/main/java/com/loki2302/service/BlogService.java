@@ -1,5 +1,7 @@
 package com.loki2302.service;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -39,6 +41,11 @@ public interface BlogService {
 	ServiceResult<PostDTO> getPost(
 			@QueryParam("sessionToken") String sessionToken, 
 			@QueryParam("postId") long postId);
+	
+	@GET
+	@Path("getPosts")
+	ServiceResult<List<PostDTO>> getPosts(
+			@QueryParam("sessionToken") String sessionToken);
 
 	@POST
 	@Path("deletePost")
