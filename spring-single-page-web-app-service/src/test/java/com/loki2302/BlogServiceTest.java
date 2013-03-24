@@ -123,7 +123,18 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantUpdatePostThatDoesNotExist() {
-		// TODO
+		UserDTO user = createUser("loki2302", "qwerty");
+		AuthenticationResultDTO authenticationResult = authenticate(
+                "loki2302", "qwerty");
+        
+        String sessionToken = authenticationResult.SessionToken;
+        
+        ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
+                sessionToken, 
+                123, 
+                "new text goes here");
+        assertFalse(updatePostResult.ok);
+        assertEquals(BlogServiceErrorCode.NoSuchPost, updatePostResult.blogServiceErrorCode);
 	}
 	
 	@Test
