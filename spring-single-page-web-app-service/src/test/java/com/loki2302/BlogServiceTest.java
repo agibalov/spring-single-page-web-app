@@ -30,11 +30,9 @@ public class BlogServiceTest {
 	
 	@Test
 	public void sessionExpiresAfter3Seconds() throws InterruptedException {
-		UserDTO user = createUser("loki2302", "qwerty");
-		AuthenticationResultDTO authenticationResult = authenticate(
-				"loki2302", "qwerty");
+		createUser("loki2302", "qwerty");
+		String sessionToken =  authenticate("loki2302", "qwerty");		
 		
-		String sessionToken = authenticationResult.SessionToken;
 		createPost(sessionToken, "test1");
 		Thread.sleep(3500);		
 		
@@ -60,10 +58,7 @@ public class BlogServiceTest {
 	@Test
 	public void canCreatePost() {
 		UserDTO user = createUser("loki2302", "qwerty");
-		AuthenticationResultDTO authenticationResult = authenticate(
-				"loki2302", "qwerty");
-		
-		String sessionToken = authenticationResult.SessionToken;
+		String sessionToken =  authenticate("loki2302", "qwerty");
 		
 		ServiceResult<PostDTO> createPostResult = blogService.createPost(
 				sessionToken, 
@@ -78,11 +73,8 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantCreatePostIfTextIsTooLong() {
-		UserDTO user = createUser("loki2302", "qwerty");
-		AuthenticationResultDTO authenticationResult = authenticate(
-				"loki2302", "qwerty");
-		
-		String sessionToken = authenticationResult.SessionToken;
+		createUser("loki2302", "qwerty");
+		String sessionToken =  authenticate("loki2302", "qwerty");
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		for(int i = 0; i < 1025; ++i) {
@@ -102,11 +94,8 @@ public class BlogServiceTest {
 	
 	@Test
 	public void canUpdatePost() {
-		UserDTO user = createUser("loki2302", "qwerty");
-		AuthenticationResultDTO authenticationResult = authenticate(
-				"loki2302", "qwerty");
-		
-		String sessionToken = authenticationResult.SessionToken;
+		createUser("loki2302", "qwerty");
+		String sessionToken =  authenticate("loki2302", "qwerty");
 		
 		PostDTO post = createPost(sessionToken, "text goes here");
 		ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
@@ -123,11 +112,8 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantUpdatePostThatDoesNotExist() {
-		UserDTO user = createUser("loki2302", "qwerty");
-		AuthenticationResultDTO authenticationResult = authenticate(
-                "loki2302", "qwerty");
-        
-        String sessionToken = authenticationResult.SessionToken;
+		createUser("loki2302", "qwerty");
+		String sessionToken =  authenticate("loki2302", "qwerty");
         
         ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
                 sessionToken, 
@@ -149,11 +135,8 @@ public class BlogServiceTest {
 	
 	@Test
 	public void canGetPost() {
-		UserDTO user = createUser("loki2302", "qwerty");
-		AuthenticationResultDTO authenticationResult = authenticate(
-				"loki2302", "qwerty");
-		
-		String sessionToken = authenticationResult.SessionToken;
+		createUser("loki2302", "qwerty");
+		String sessionToken =  authenticate("loki2302", "qwerty");
 		
 		PostDTO post = createPost(sessionToken, "text goes here");
 		ServiceResult<PostDTO> getPostServiceResult = blogService.getPost(
@@ -171,8 +154,8 @@ public class BlogServiceTest {
 		createUser("loki2302", "qwerty");
 		createUser("qwerty", "qwerty");
 		
-		String sessionToken1 = authenticate("loki2302", "qwerty").SessionToken;
-		String sessionToken2 = authenticate("qwerty", "qwerty").SessionToken;
+		String sessionToken1 = authenticate("loki2302", "qwerty");
+		String sessionToken2 = authenticate("qwerty", "qwerty");
 		
 		ServiceResult<List<PostDTO>> getPostsServiceResult = blogService.getPosts(sessionToken1);
 		assertTrue(getPostsServiceResult.ok);
@@ -222,7 +205,7 @@ public class BlogServiceTest {
 		return result.payload;
 	}
 	
-	private AuthenticationResultDTO authenticate(
+	private String authenticate(
 			String userName, 
 			String password) {
 		
@@ -232,7 +215,7 @@ public class BlogServiceTest {
 		
 		assertTrue(result.ok);
 		
-		return result.payload;
+		return result.payload.SessionToken;
 	}
 	
 	private PostDTO createPost(
@@ -278,6 +261,5 @@ public class BlogServiceTest {
 				postId);
 		
 		assertTrue(result.ok);
-	}
-	
+	}	
 }
