@@ -136,7 +136,7 @@ public class BlogServiceTest {
 	@Test
 	public void canGetPost() {
 		createUser("loki2302", "qwerty");
-		String sessionToken =  authenticate("loki2302", "qwerty");
+		String sessionToken = authenticate("loki2302", "qwerty");
 		
 		PostDTO post = createPost(sessionToken, "text goes here");
 		ServiceResult<PostDTO> getPostServiceResult = blogService.getPost(
@@ -179,7 +179,19 @@ public class BlogServiceTest {
 	
 	@Test
 	public void canDeletePost() {
-		// TODO
+	    createUser("loki2302", "qwerty");
+        String sessionToken = authenticate("loki2302", "qwerty");
+        
+        PostDTO post = createPost(sessionToken, "test post");
+        
+        List<PostDTO> posts = getPosts(sessionToken);       
+        assertEquals(1, posts.size());
+        
+        ServiceResult<Object> deletePostResult = blogService.deletePost(sessionToken, post.PostId);
+        assertTrue(deletePostResult.ok);
+        
+        posts = getPosts(sessionToken);       
+        assertEquals(0, posts.size());
 	}
 	
 	@Test
@@ -242,6 +254,15 @@ public class BlogServiceTest {
 		assertTrue(result.ok);
 		
 		return result.payload;
+	}
+	
+	private List<PostDTO> getPosts(String sessionToken) {
+	    ServiceResult<List<PostDTO>> result = 
+	            blogService.getPosts(sessionToken);
+	    
+	    assertTrue(result.ok);
+	    
+	    return result.payload;
 	}
 	
 	private PostDTO updatePost(
