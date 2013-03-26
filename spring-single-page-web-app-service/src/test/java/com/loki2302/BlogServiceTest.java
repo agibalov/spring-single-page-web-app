@@ -60,15 +60,21 @@ public class BlogServiceTest {
 		UserDTO user = createUser("loki2302", "qwerty");
 		String sessionToken =  authenticate("loki2302", "qwerty");
 		
-		ServiceResult<PostDTO> createPostResult = blogService.createPost(
+		PostDTO post = createPost(
 				sessionToken, 
 				"text goes here");
-		assertTrue(createPostResult.ok);
-		assertNotNull(createPostResult.payload);
-		assertTrue(createPostResult.payload.PostId > 0);
-		assertEquals("text goes here", createPostResult.payload.Text);
-		assertEquals("loki2302", createPostResult.payload.UserName);
-		assertEquals(user.UserId, createPostResult.payload.UserId);
+		assertTrue(post.PostId > 0);
+		assertEquals("text goes here", post.Text);
+		assertEquals("loki2302", post.UserName);
+		assertEquals(user.UserId, post.UserId);
+	}
+	
+	private String getLongPostText() {
+	    StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < 1025; ++i) {
+            stringBuilder.append('a');
+        }
+        return stringBuilder.toString();
 	}
 	
 	@Test
@@ -76,14 +82,9 @@ public class BlogServiceTest {
 		createUser("loki2302", "qwerty");
 		String sessionToken =  authenticate("loki2302", "qwerty");
 		
-		StringBuilder stringBuilder = new StringBuilder();
-		for(int i = 0; i < 1025; ++i) {
-			stringBuilder.append('a');
-		}
-		
 		ServiceResult<PostDTO> createPostResult = blogService.createPost(
 				sessionToken, 
-				stringBuilder.toString());
+				getLongPostText());
 		assertFalse(createPostResult.ok);
 		assertNull(createPostResult.payload);		
 		assertEquals(
@@ -95,25 +96,23 @@ public class BlogServiceTest {
 	@Test
 	public void canUpdatePost() {
 		createUser("loki2302", "qwerty");
-		String sessionToken =  authenticate("loki2302", "qwerty");
+		String sessionToken = authenticate("loki2302", "qwerty");
 		
 		PostDTO post = createPost(sessionToken, "text goes here");
-		ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
+		PostDTO updatedPost = updatePost(
 				sessionToken, 
 				post.PostId, 
 				"new text goes here");
-		assertTrue(updatePostResult.ok);
-		assertNotNull(updatePostResult.payload);
-		assertEquals(post.PostId, updatePostResult.payload.PostId);
-		assertEquals(post.UserId, updatePostResult.payload.UserId);
-		assertEquals(post.UserName, updatePostResult.payload.UserName);
-		assertEquals("new text goes here", updatePostResult.payload.Text);
+		assertEquals(post.PostId, updatedPost.PostId);
+		assertEquals(post.UserId, updatedPost.UserId);
+		assertEquals(post.UserName, updatedPost.UserName);
+		assertEquals("new text goes here", updatedPost.Text);
 	}
 	
 	@Test
 	public void cantUpdatePostThatDoesNotExist() {
 		createUser("loki2302", "qwerty");
-		String sessionToken =  authenticate("loki2302", "qwerty");
+		String sessionToken = authenticate("loki2302", "qwerty");
         
         ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
                 sessionToken, 
@@ -130,7 +129,22 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantUpdatePostIfTextIsTooLong() {
-		// TODO
+	    createUser("loki2302", "qwerty");
+        String sessionToken = authenticate("loki2302", "qwerty");
+        
+        PostDTO post = createPost(sessionToken, "text goes here");
+        long postId = post.PostId;
+        
+        ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
+                sessionToken, 
+                postId, 
+                getLongPostText());
+        assertFalse(updatePostResult.ok);
+        assertNull(updatePostResult.payload);       
+        assertEquals(
+                BlogServiceErrorCode.ValidationError, 
+                updatePostResult.blogServiceErrorCode);
+        assertTrue(updatePostResult.fieldErrors.containsKey("text"));
 	}
 	
 	@Test
@@ -139,14 +153,13 @@ public class BlogServiceTest {
 		String sessionToken = authenticate("loki2302", "qwerty");
 		
 		PostDTO post = createPost(sessionToken, "text goes here");
-		ServiceResult<PostDTO> getPostServiceResult = blogService.getPost(
+		PostDTO retrievedPost = getPost(
 				sessionToken, 
 				post.PostId);
-		assertTrue(getPostServiceResult.ok);
-		assertEquals(post.PostId, getPostServiceResult.payload.PostId);
-		assertEquals(post.Text, getPostServiceResult.payload.Text);
-		assertEquals(post.UserId, getPostServiceResult.payload.UserId);
-		assertEquals(post.UserName, getPostServiceResult.payload.UserName);
+		assertEquals(post.PostId, retrievedPost.PostId);
+		assertEquals(post.Text, retrievedPost.Text);
+		assertEquals(post.UserId, retrievedPost.UserId);
+		assertEquals(post.UserName, retrievedPost.UserName);
 	}
 	
 	@Test
@@ -213,6 +226,7 @@ public class BlogServiceTest {
 				password);
 		
 		assertTrue(result.ok);
+		assertNotNull(result.payload);
 		
 		return result.payload;
 	}
@@ -226,6 +240,7 @@ public class BlogServiceTest {
 				password);
 		
 		assertTrue(result.ok);
+		assertNotNull(result.payload);
 		
 		return result.payload.SessionToken;
 	}
@@ -239,6 +254,7 @@ public class BlogServiceTest {
 				text);
 		
 		assertTrue(result.ok);
+		assertNotNull(result.payload);
 		
 		return result.payload;		
 	}
@@ -252,6 +268,7 @@ public class BlogServiceTest {
 				postId);
 		
 		assertTrue(result.ok);
+		assertNotNull(result.payload);
 		
 		return result.payload;
 	}
@@ -261,6 +278,7 @@ public class BlogServiceTest {
 	            blogService.getPosts(sessionToken);
 	    
 	    assertTrue(result.ok);
+	    assertNotNull(result.payload);
 	    
 	    return result.payload;
 	}
@@ -270,7 +288,15 @@ public class BlogServiceTest {
 			long postId, 
 			String text) {
 		
-		return null;
+	    ServiceResult<PostDTO> result = blogService.updatePost(
+                sessionToken,
+                postId,
+                text);
+        
+        assertTrue(result.ok);
+        assertNotNull(result.payload);
+        
+        return result.payload;
 	}
 	
 	private void deletePost(
