@@ -124,7 +124,20 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantUpdatePostThatDoesNotBelongToTheUser() {
-		// TODO
+	    createUser("loki2302", "qwerty");                
+        String sessionToken1 = authenticate("loki2302", "qwerty");        
+        
+        PostDTO post = createPost(sessionToken1, "test post");
+        long postId = post.PostId;
+        
+        createUser("qwerty", "qwerty");
+        String sessionToken2 = authenticate("qwerty", "qwerty");
+        ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
+                sessionToken2,
+                postId,
+                "new text");
+        assertFalse(updatePostResult.ok);
+        assertEquals(BlogServiceErrorCode.NoPermissionsToAccessPost, updatePostResult.blogServiceErrorCode);
 	}	
 	
 	@Test
