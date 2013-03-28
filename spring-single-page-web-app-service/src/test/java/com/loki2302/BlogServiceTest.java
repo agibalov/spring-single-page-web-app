@@ -222,7 +222,12 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantDeletePostThatDoesNotExist() {
-		// TODO
+	    createUser("loki2302", "qwerty");
+        String sessionToken = authenticate("loki2302", "qwerty");
+        
+        ServiceResult<Object> deletePostResult = blogService.deletePost(sessionToken, 123);
+        assertFalse(deletePostResult.ok);
+        assertEquals(BlogServiceErrorCode.NoSuchPost, deletePostResult.blogServiceErrorCode);
 	}
 	
 	@Test
