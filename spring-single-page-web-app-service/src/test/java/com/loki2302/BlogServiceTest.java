@@ -213,8 +213,7 @@ public class BlogServiceTest {
         List<PostDTO> posts = getPosts(sessionToken);       
         assertEquals(1, posts.size());
         
-        ServiceResult<Object> deletePostResult = blogService.deletePost(sessionToken, post.PostId);
-        assertTrue(deletePostResult.ok);
+        deletePost(sessionToken, post.PostId);
         
         posts = getPosts(sessionToken);       
         assertEquals(0, posts.size());
@@ -232,7 +231,19 @@ public class BlogServiceTest {
 	
 	@Test
 	public void cantDeletePostThatDoesnBelongToTheUser() {
-		// TODO
+	    createUser("loki2302", "qwerty");
+        String sessionToken1 = authenticate("loki2302", "qwerty");
+        
+        PostDTO post = createPost(sessionToken1, "test post");
+        
+        long postId = post.PostId;
+        
+        createUser("qwerty", "qwerty");
+        String sessionToken2 = authenticate("qwerty", "qwerty");
+        
+        ServiceResult<Object> deletePostResult = blogService.deletePost(sessionToken2, postId);        
+        assertFalse(deletePostResult.ok);
+        assertEquals(BlogServiceErrorCode.NoPermissionsToAccessPost, deletePostResult.blogServiceErrorCode);
 	}
 	
 	private UserDTO createUser(
