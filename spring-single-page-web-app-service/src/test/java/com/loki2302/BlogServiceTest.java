@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,23 +69,16 @@ public class BlogServiceTest {
 		assertEquals("loki2302", post.UserName);
 		assertEquals(user.UserId, post.UserId);
 	}
-	
-	private String getLongPostText() {
-	    StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < 1025; ++i) {
-            stringBuilder.append('a');
-        }
-        return stringBuilder.toString();
-	}
-	
+		
 	@Test
 	public void cantCreatePostIfTextIsTooLong() {
 		createUser("loki2302", "qwerty");
 		String sessionToken =  authenticate("loki2302", "qwerty");
 		
+		String longPostText = RandomStringUtils.random(1025);		
 		ServiceResult<PostDTO> createPostResult = blogService.createPost(
 				sessionToken, 
-				getLongPostText());
+				longPostText);
 		assertFalse(createPostResult.ok);
 		assertNull(createPostResult.payload);		
 		assertEquals(
@@ -148,10 +142,11 @@ public class BlogServiceTest {
         PostDTO post = createPost(sessionToken, "text goes here");
         long postId = post.PostId;
         
+        String longPostText = RandomStringUtils.random(1025);
         ServiceResult<PostDTO> updatePostResult = blogService.updatePost(
                 sessionToken, 
                 postId, 
-                getLongPostText());
+                longPostText);
         assertFalse(updatePostResult.ok);
         assertNull(updatePostResult.payload);       
         assertEquals(
