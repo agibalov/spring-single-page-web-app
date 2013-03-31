@@ -1,11 +1,11 @@
 angular.module("app").controller("CreatePostController", function($scope, api, $location, $route) {	
-	$scope.text = "";
+	$scope.Text = "";
 	
 	$scope.createPostClicked = function() {
 		console.log("create post");
-		console.log($scope.text);
+		console.log($scope.Text);
 		
-		api.createPost($scope.text, function(result) {
+		api.createPost($scope.Text, function(result) {
 			console.log(result);
 			
 			if(result.ok !== true) {				

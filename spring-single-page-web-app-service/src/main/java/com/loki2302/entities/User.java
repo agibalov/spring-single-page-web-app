@@ -45,4 +45,15 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}  
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if(!(obj instanceof User)) {
+	        return false;
+	    }
+	    
+	    User other = (User)obj;
+	    
+        return id == other.getId();
+	}
 }

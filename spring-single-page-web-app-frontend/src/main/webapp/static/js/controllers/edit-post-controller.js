@@ -1,21 +1,21 @@
 angular.module("app").controller("EditPostController", function($scope, $routeParams, api) {
-	$scope.postId = $routeParams.postId;
-	$scope.text = "";
+	$scope.PostId = $routeParams.postId;
+	$scope.Text = "";
 	
-	api.getPost($scope.postId, function(result) {
+	api.getPost($scope.PostId, function(result) {
 		if(result.ok !== true) {
 			console.log(result);
 			throw new "something terrible happened";
 		}
 		
-		$scope.text = result.payload.Text;
+		$scope.Text = result.payload.Text;
 	});
 	
 	$scope.updatePostClicked = function() {
 		console.log("update post");
-		console.log($scope.text);
+		console.log($scope.Text);
 		
-		api.updatePost($scope.postId, $scope.text, function(result) {
+		api.updatePost($scope.PostId, $scope.Text, function(result) {
 			console.log(result);
 		});
 	};

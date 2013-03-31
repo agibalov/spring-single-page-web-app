@@ -1,16 +1,11 @@
-angular.module("app").factory("api", function($http, apiServiceRoot) {
-	
-	var state = {
-		sessionToken: null
-	};	
-	
+angular.module("app").factory("api", function($http, $cookieStore, apiServiceRoot) {		
 	return {
 		isAuthenticated: function() {
-			return state.sessionToken !== null;
+			return this.getSessionToken() !== null;
 		},
 		
 		getSessionToken: function() {
-			return state.sessionToken;
+			return $cookieStore.get("SessionToken");
 		},
 		
 		createUser: function(userName, password, onSuccess) {
@@ -42,7 +37,7 @@ angular.module("app").factory("api", function($http, apiServiceRoot) {
 				})
 			.success(function(result) {
 				if(result.ok === true) {
-					state.sessionToken = result.payload.SessionToken;
+					$cookieStore.put("SessionToken", result.payload.SessionToken);
 				}
 				
 				onSuccess(result);
@@ -69,18 +64,34 @@ angular.module("app").factory("api", function($http, apiServiceRoot) {
 			});
 		},
 		
-		getPost: function(sessionToken, postId, onSuccess) {
+		getPost: function(postId, onSuccess) {
 			if(!this.isAuthenticated()) {
 				throw "not authenticated";
 			}
 			
-			$http
-			.get(
+			$http.get(
 				apiServiceRoot + "getPost",
 				{
 					params: {
 						sessionToken: this.getSessionToken(),
 						postId: postId
+					}
+				})
+			.success(function(result) {
+				onSuccess(result);
+			});
+		},
+		
+		getPosts: function(onSuccess) {
+			if(!this.isAuthenticated()) {
+				throw "not authenticated";
+			}
+			
+			$http.get(
+				apiServiceRoot + "getPosts",
+				{
+					params: {
+						sessionToken: this.getSessionToken(),
 					}
 				})
 			.success(function(result) {

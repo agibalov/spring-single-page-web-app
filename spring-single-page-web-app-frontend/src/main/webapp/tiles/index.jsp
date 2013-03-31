@@ -5,7 +5,7 @@
 <html ng-app="app">
     <head>
         <title></title>
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
         <script src="http://code.angularjs.org/1.1.3/angular.min.js"></script>
         <script src="http://code.angularjs.org/1.1.3/angular-cookies.min.js"></script>
         
@@ -17,6 +17,7 @@
         <script type="text/javascript" src="<c:url value="/static/js/controllers/index-controller.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/controllers/create-post-controller.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/controllers/get-post-controller.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/static/js/controllers/get-posts-controller.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/controllers/edit-post-controller.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/widgets/user-name-input-widget.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/widgets/password-input-widget.js" />"></script>
@@ -25,13 +26,13 @@
         	angular.module("app").constant("apiServiceRoot", "<c:url value="/api/BlogService/" />");
         </script>
 	</head>
-	<body ng-controller="ChromeController">
+	<body ng-controller="ChromeController">		
 		<div class="container">
 			<div class="row">
 				<div class="page-header">
 					<h1>Single Page Blogger ({{getSessionToken()}})</h1>
 				</div>
-			</div>		
+			</div>
 			<ng-view></ng-view>
 		</div>
 	</body>

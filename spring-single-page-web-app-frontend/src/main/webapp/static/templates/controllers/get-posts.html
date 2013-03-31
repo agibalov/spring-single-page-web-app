@@ -1,0 +1,8 @@
+<div class="row">
+	<h2>There are {{Posts.length}} posts</h2>
+	<button ng-click="CreateDummyPost()">Create dummy post</button>
+</div>
+<div class="row" ng-repeat="post in Posts">
+	<h4>Post #{{post.PostId}} by <a href="#/getUser/{{post.UserId}}">{{post.UserName}}</a></h4>
+	<a href="#/getPost/{{post.PostId}}">{{post.Text}}</a>
+</div>

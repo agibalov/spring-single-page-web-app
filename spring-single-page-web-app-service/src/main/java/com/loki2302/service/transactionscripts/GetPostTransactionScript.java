@@ -29,6 +29,9 @@ public class GetPostTransactionScript {
 			throw new BlogServiceException(BlogServiceErrorCode.NoSuchPost);
 		}
 		
+		User postAuthor = post.getAuthor();
+		System.out.printf("author=%s, user=%s", postAuthor, user);
+		
 		if(!post.getAuthor().equals(user)) {
 			throw new BlogServiceException(BlogServiceErrorCode.NoPermissionsToAccessPost);
 		}

@@ -1,13 +1,13 @@
 angular.module("app").controller("GetPostController", function($scope, $routeParams, api) {
-	$scope.postId = $routeParams.postId;
-	$scope.text = "";
+	$scope.PostId = $routeParams.postId;
+	$scope.Text = "";
 	
-	api.getPost($scope.postId, function(result) {
+	api.getPost($scope.PostId, function(result) {
 		if(result.ok !== true) {
 			console.log(result);
 			throw new "something terrible happened";
 		}
 		
-		$scope.text = result.payload.Text;
+		$scope.Text = result.payload.Text;
 	});
 });

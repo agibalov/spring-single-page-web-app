@@ -1,4 +1,4 @@
-angular.module("app", [], function($routeProvider) {	
+angular.module("app", ["ngCookies"], function($routeProvider) {	
 	$routeProvider
 		.when("/", {
 			templateUrl: "/static/templates/controllers/index.html",
@@ -11,6 +11,10 @@ angular.module("app", [], function($routeProvider) {
 		.when("/getPost/:postId", {
 			templateUrl: "/static/templates/controllers/get-post.html",
 			controller: "GetPostController"
+		})
+		.when("/getPosts/", {
+			templateUrl: "/static/templates/controllers/get-posts.html",
+			controller: "GetPostsController"
 		})
 		.when("/editPost/:postId", {
 			templateUrl: "/static/templates/controllers/edit-post.html",
