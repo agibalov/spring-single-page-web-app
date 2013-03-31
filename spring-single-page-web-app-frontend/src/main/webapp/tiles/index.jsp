@@ -3,7 +3,8 @@
     <head>
         <title></title>
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.1.3/angular.min.js"></script>
+        <script src="http://code.angularjs.org/1.1.3/angular-cookies.min.js"></script>
         
         <script type="text/javascript" src="/static/js/app.js"></script>
         <script type="text/javascript" src="/static/js/api.js"></script>
