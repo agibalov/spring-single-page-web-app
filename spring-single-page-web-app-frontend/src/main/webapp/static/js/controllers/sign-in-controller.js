@@ -1,4 +1,4 @@
-angular.module("app").controller("SignInController", function($scope, api) {
+angular.module("app").controller("SignInController", function($scope, api, $location, $route) {
 	$scope.userName = "";
 	$scope.password = "";
 	
@@ -17,17 +17,19 @@ angular.module("app").controller("SignInController", function($scope, api) {
 					$scope.userNameErrors = undefined;
 					$scope.passwordErrors = undefined;
 					
-					if(
-							result.blogServiceErrorCode !== null && 
-							result.blogServiceErrorCode === "ValidationError") {
-						
-						if(result.fieldErrors.userName !== undefined) {
-							$scope.userNameErrors = result.fieldErrors.userName;
-						}					
-						
-						if(result.fieldErrors.password !== undefined) {
-							$scope.passwordErrors = result.fieldErrors.password;
+					if(result.ok !== true) {
+						if(result.blogServiceErrorCode === "ValidationError") {
+							if(result.fieldErrors.userName !== undefined) {
+								$scope.userNameErrors = result.fieldErrors.userName;
+							}					
+							
+							if(result.fieldErrors.password !== undefined) {
+								$scope.passwordErrors = result.fieldErrors.password;
+							}
 						}
+					} else {
+						$location.path("/getPosts/");
+						$route.reload();
 					}
 				});
 	};	

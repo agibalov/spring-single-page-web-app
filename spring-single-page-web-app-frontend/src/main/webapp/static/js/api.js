@@ -9,8 +9,7 @@ angular.module("app").factory("api", function($http, $cookieStore, apiServiceRoo
 		},
 		
 		createUser: function(userName, password, onSuccess) {
-			$http
-			.post(
+			$http.post(
 				apiServiceRoot + "createUser", 
 				null, 
 				{ 
@@ -25,8 +24,7 @@ angular.module("app").factory("api", function($http, $cookieStore, apiServiceRoo
 		},
 		
 		authenticate: function(userName, password, onSuccess) {
-			$http
-			.post(
+			$http.post(
 				apiServiceRoot + "authenticate", 
 				null, 
 				{ 
@@ -49,8 +47,7 @@ angular.module("app").factory("api", function($http, $cookieStore, apiServiceRoo
 				throw "not authenticated";
 			}
 			
-			$http
-			.post(
+			$http.post(
 				apiServiceRoot + "createPost",
 				null,
 				{
@@ -104,9 +101,9 @@ angular.module("app").factory("api", function($http, $cookieStore, apiServiceRoo
 				throw "not authenticated";
 			}
 			
-			$http
-			.post(
+			$http.post(
 				apiServiceRoot + "updatePost",
+				null,				
 				{
 					params: {
 						sessionToken: this.getSessionToken(),
@@ -124,9 +121,9 @@ angular.module("app").factory("api", function($http, $cookieStore, apiServiceRoo
 				throw "not authenticated";
 			}
 			
-			$http
-			.post(
+			$http.post(
 				apiServiceRoot + "deletePost",
+				null,
 				{
 					params: {
 						sessionToken: this.getSessionToken(),
