@@ -1,3 +1,6 @@
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html ng-app="app">
     <head>
@@ -12,8 +15,8 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>		
 		
 		<script type="text/javascript">
-			var app = angular.module("app", []);
-			app.constant("serviceUrl", "http://localhost:8080/api/HelloService/");
+			var app = angular.module("app", []);			
+			app.constant("serviceUrl", "<c:url value="/api/HelloService/" />");
 			
 			app.factory("api", function($http, serviceUrl) {
 				return {
